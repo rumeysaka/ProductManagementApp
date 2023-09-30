@@ -3,7 +3,6 @@ import styles from "../../styles/Product.module.css"
 const Products = ({ product, onDeleteProduct }) => {
   const handleDelete = (id) => {
     console.log(id)
-
     onDeleteProduct(id)
   }
   return (
@@ -13,13 +12,15 @@ const Products = ({ product, onDeleteProduct }) => {
       </div>
       <div className={styles.body}>
         <div className={styles.header}>
-          <div className={styles.title}>{product.title}</div>
-          <div className={styles.price}>{product.price}₺</div>
+          <div className={styles.h3}>{product.title}</div>
+          <div className={styles.p}>{product.price}₺</div>
         </div>
         <div className={styles.divider}></div>
 
         <div>{product.category}</div>
-        <div className={styles.delete}>sil</div>
+        <div className={styles.delete} onClick={() => handleDelete(product.id)}>
+          sil
+        </div>
       </div>
     </div>
   )
