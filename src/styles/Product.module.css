@@ -1,0 +1,40 @@
+.card {
+  margin: 0 64px 140px 0px;
+  width: 240px;
+  height: 240px;
+}
+.body {
+  padding: 10px 5px 10px 5px;
+  font-size: 11px;
+}
+.cover img {
+  width: 240px;
+  height: 200px;
+  object-fit: cover;
+  object-position: 25% 25%;
+  margin-bottom: 8px;
+  border-radius: 4px;
+
+  box-shadow: inset -1px 2px 6px 0px rgba(0, 0, 0, 0.28);
+  -webkit-box-shadow: -1px 2px 6px 0px rgba(0, 0, 0, 0.28);
+  -moz-box-shadow: -1px 2px 6px 0px rgba(0, 0, 0, 0.28);
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+.divider {
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.28);
+  margin-bottom: 16px;
+}
+.delete {
+  display: flex;
+  justify-content: flex-end;
+}
+.price {
+  color: blue;
+}
