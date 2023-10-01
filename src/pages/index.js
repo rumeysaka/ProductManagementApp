@@ -8,10 +8,9 @@ import { useEffect } from "react"
 
 export default function Home(data) {
   const dispatch = useDispatch()
-  let products = Object.entries(data?.data)
 
   useEffect(() => {
-    dispatch(setProducts(products))
+    dispatch(setProducts(data?.data))
   }, [])
 
   return (

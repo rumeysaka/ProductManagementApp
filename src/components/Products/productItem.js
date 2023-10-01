@@ -1,9 +1,11 @@
 import styles from "../../styles/ProductItem.module.css"
 
-const ProductItem = ({ product, onDeleteProduct }) => {
-  const handleDelete = (id) => {
-    console.log(id)
-    onDeleteProduct(id)
+const ProductItem = (props) => {
+  const { handleDeleteProduct, product } = props
+  // console.log("product in item", product)
+
+  if (!product) {
+    return
   }
   return (
     <div className={styles.card} key={product.id}>
@@ -18,7 +20,12 @@ const ProductItem = ({ product, onDeleteProduct }) => {
         <div className={styles.divider}></div>
 
         <div>{product.category}</div>
-        <div className={styles.delete} onClick={() => handleDelete(product.id)}>
+        <div
+          className={styles.delete}
+          onClick={() => {
+            handleDeleteProduct(product.id)
+          }}
+        >
           sil
         </div>
       </div>

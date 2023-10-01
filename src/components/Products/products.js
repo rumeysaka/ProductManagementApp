@@ -1,33 +1,30 @@
 import ProductItem from "./productItem"
 import styles from "../../styles/Products.module.css"
 import { useDispatch, useSelector } from "react-redux"
-import { getProducts } from "../../redux/features/ProductSlice"
-import { useEffect } from "react"
+import { setProducts } from "../../redux/features/ProductSlice"
 
 const Products = () => {
   const dispatch = useDispatch()
-  //   const deleteProduct = (id) => {
-  //     fetch(`https://fakestoreapi.com/products/${id}`)
-  //       .then((res) => res.json())
-  //       .then((json) => {
-  //         products = products.filter((i) => i[1].id !== json.id)
-  //         console.log(products)
-  //       })
-  //   }
-  //   const changeOrder = () => {
-  //     fetch("https://fakestoreapi.com/products?sort=desc")
-  //       .then((res) => res.json())
-  //       .then((json) => {
-  //         console.log(json)
-  //         let products = res.data
-  //       })
-  //   }
 
-  // console.log(useSelector(getProducts))
+  let products = useSelector((state) => state.products.state)
 
-  const products = useSelector((state) => state.products.state)
-  console.log(products)
-  // console.log(products)
+  const handleDeleteProduct = (id) => {
+    console.log(id)
+    fetch(`https://fakestoreapi.com/products/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        dispatch(setProducts(products.filter((i) => i.id != json.id)))
+      })
+  }
+  const changeOrder = () => {
+    fetch("https://fakestoreapi.com/products?sort=desc")
+      .then((res) => res.json())
+      .then((json) => {
+        dispatch(setProducts(json))
+      })
+  }
 
   return (
     <>
@@ -35,9 +32,20 @@ const Products = () => {
         <div className={styles.dropdown}>
           <p>Sıralama Ölçütü</p>
         </div>
+
         <div className={styles.dropdownContent}>
-          <p>Artan Sıralama</p>
-          <p>Azalan Sıralama</p>
+          <form type="submit">
+            <input
+              type="radio"
+              name="orderType"
+              value="ascending"
+              onClick={() => changeOrder()}
+            />
+            Artan Sıralama
+            <label for="orderType">Artan Sıralama</label>
+            <input type="radio" name="orderType" value="descending" />
+            <label for="orderType">Azalan Sıralama</label>
+          </form>
         </div>
       </div>
       <div></div>
@@ -47,7 +55,13 @@ const Products = () => {
           <div>load</div>
         ) : (
           products.map((item) => {
-            return <ProductItem key={item[0]} product={item[1]} />
+            return (
+              <ProductItem
+                key={item.id}
+                handleDeleteProduct={handleDeleteProduct}
+                product={item}
+              />
+            )
           })
         )}
       </div>
