@@ -5,14 +5,23 @@ import Products from "../components/Products/products"
 import { useDispatch, useSelector } from "react-redux"
 import { setProducts } from "../redux/features/ProductSlice"
 import { useEffect } from "react"
+import { setCategories } from "../redux/features/CategorySlice"
 
-export default function Home(data) {
+export default function Home(data, categories) {
   const dispatch = useDispatch()
 
+  const cate = () => {
+    fetch("https://fakestoreapi.com/products/categories")
+      .then((res) => res.json())
+      .then((json) => dispatch(setCategories(json)))
+  }
+
   useEffect(() => {
+    cate()
     dispatch(setProducts(data?.data))
   }, [])
 
+  console.log(categories)
   return (
     <>
       <Head>
@@ -25,11 +34,8 @@ export default function Home(data) {
 }
 
 export async function getServerSideProps() {
-  // Fetch data from external API
   const res = await fetch("https://fakestoreapi.com/products")
   const data = await res?.json()
-
-  // Pass data to the page via props
 
   return { props: { data } }
 }

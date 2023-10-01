@@ -2,7 +2,6 @@ import styles from "../../styles/ProductItem.module.css"
 
 const ProductItem = (props) => {
   const { handleDeleteProduct, product } = props
-  // console.log("product in item", product)
 
   if (!product) {
     return
