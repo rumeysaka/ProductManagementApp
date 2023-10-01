@@ -1,7 +1,11 @@
 import ProductItem from "./productItem"
 import styles from "../../styles/Products.module.css"
+import { useDispatch, useSelector } from "react-redux"
+import { getProducts } from "../../redux/features/ProductSlice"
+import { useEffect } from "react"
 
-const Products = ({ data }) => {
+const Products = () => {
+  const dispatch = useDispatch()
   //   const deleteProduct = (id) => {
   //     fetch(`https://fakestoreapi.com/products/${id}`)
   //       .then((res) => res.json())
@@ -18,7 +22,13 @@ const Products = ({ data }) => {
   //         let products = res.data
   //       })
   //   }
-  console.log(data)
+
+  // console.log(useSelector(getProducts))
+
+  const products = useSelector((state) => state.products.state)
+  console.log(products)
+  // console.log(products)
+
   return (
     <>
       <div className={styles.sortingElement}>
@@ -33,10 +43,10 @@ const Products = ({ data }) => {
       <div></div>
 
       <div className={styles.wrapper}>
-        {!data ? (
+        {!products ? (
           <div>load</div>
         ) : (
-          data.map((item) => {
+          products.map((item) => {
             return <ProductItem key={item[0]} product={item[1]} />
           })
         )}

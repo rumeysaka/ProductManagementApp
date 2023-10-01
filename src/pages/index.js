@@ -2,11 +2,17 @@
 import Navbar from "../components/navbar"
 import Head from "next/head"
 import Products from "../components/Products/products"
+import { useDispatch, useSelector } from "react-redux"
+import { setProducts } from "../redux/features/ProductSlice"
+import { useEffect } from "react"
 
 export default function Home(data) {
+  const dispatch = useDispatch()
   let products = Object.entries(data?.data)
 
-  console.log("products", products)
+  useEffect(() => {
+    dispatch(setProducts(products))
+  }, [])
 
   return (
     <>
@@ -14,7 +20,7 @@ export default function Home(data) {
         <title>My page title</title>
       </Head>
       <Navbar />
-      <Products data={products} />
+      <Products />
     </>
   )
 }
@@ -23,6 +29,8 @@ export async function getServerSideProps() {
   // Fetch data from external API
   const res = await fetch("https://fakestoreapi.com/products")
   const data = await res?.json()
+
   // Pass data to the page via props
+
   return { props: { data } }
 }
