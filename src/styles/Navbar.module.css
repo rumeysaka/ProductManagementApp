@@ -1,19 +1,20 @@
 .mainHeader {
   padding: 10px;
-  background-color: rgb(39, 92, 115);
+  background-color: var(--blue);
   height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  box-shadow: inset -1px 2px 6px 0px rgba(0, 0, 0, 0.28);
-  -webkit-box-shadow: -1px 2px 6px 0px rgba(0, 0, 0, 0.28);
-  -moz-box-shadow: -1px 2px 6px 0px rgba(0, 0, 0, 0.28);
+  box-shadow: var(--shadow-box);
+  -webkit-box-shadow: var(---moz-box-shadow);
+  -moz-box-shadow: var(---moz-box-shadow);
 }
 .mainHeader a {
   text-decoration: none;
   display: flex;
   color: aliceblue;
   justify-content: space-between;
+  padding: 1 rem;
 }
 .title {
   display: flex;

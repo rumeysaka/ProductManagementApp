@@ -5,8 +5,6 @@
   text-align: left;
   color: inherit;
   text-decoration: none;
-  /* border: 1px solid #eaeaea;
-  border-radius: 10px; */
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
@@ -21,7 +19,7 @@
   object-position: 25% 25%;
   margin-bottom: 8px;
   border-radius: 4px;
-  opacity: 65%;
+  opacity: 75%;
   transition: all 0.3s;
   box-shadow: inset -1px 2px 6px 0px rgba(0, 0, 0, 0.28);
   -webkit-box-shadow: -1px 2px 6px 0px rgba(0, 0, 0, 0.28);
@@ -43,12 +41,6 @@
 .h3 {
   margin: 0 0 0.75rem 0;
   font-size: 0.75rem;
-}
-
-.p {
-  margin: 0;
-  font-size: 0.85rem;
-  line-height: 1.5;
 }
 
 .logo {
@@ -77,5 +69,9 @@
   justify-content: flex-end;
 }
 .price {
-  color: blue;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--blue);
+  margin-left: 0.55rem;
 }
