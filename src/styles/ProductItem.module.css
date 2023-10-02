@@ -75,3 +75,21 @@
   color: var(--blue);
   margin-left: 0.55rem;
 }
+#form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.flex p {
+  visibility: visible;
+}
+
+.row {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+.row p {
+  visibility: hidden;
+}
