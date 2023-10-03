@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 export const products = createSlice({
   name: "products",
   initialState: { value: [] },
@@ -8,9 +8,6 @@ export const products = createSlice({
         state: action.payload,
       }
     },
-    // getProducts: (state, action) => {
-    //   return { ...state }
-    // },
   },
 })
 export const { setProducts } = products.actions

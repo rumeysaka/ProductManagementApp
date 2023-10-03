@@ -10,7 +10,6 @@ const ProductItem = (props) => {
   const {
     register,
     handleSubmit,
-    // watch,
     formState: { errors },
   } = useForm()
 
@@ -18,7 +17,6 @@ const ProductItem = (props) => {
     let nnew = [...products]
     nnew.map((i, idx) => {
       if (i == product) {
-        console.log(idx)
         nnew[idx] = {
           ...product,
           title: data.title,
@@ -27,19 +25,8 @@ const ProductItem = (props) => {
       }
       return nnew
     })
-
-    // nnew[editId - 1] = {
-    //   ...product,
-    //   title: data.title,
-    //   price: data.price,
-    // }
-
-    console.log(nnew)
     dispatch(setProducts(nnew))
-    console.log("products", products)
   }
-
-  // console.log(watch("example"))
 
   if (!product) {
     return
