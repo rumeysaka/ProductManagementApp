@@ -7,15 +7,19 @@ import { useState } from "react"
 
 const Products = () => {
   const dispatch = useDispatch()
+  const [showSideMenu, setShowSideMenu] = useState(true)
   let products = useSelector((state) => state.products.state)
   let categories = useSelector((state) => state.categories.state)
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm()
 
+  const [showModal, setShowModal] = useState(false)
   const [category, setCategory] = useState("")
+
   const handleDeleteProduct = (id) => {
     console.log(id)
     fetch(`https://fakestoreapi.com/products/${id}`, {
@@ -39,6 +43,7 @@ const Products = () => {
       .then((json) => {
         dispatch(setProducts(json))
       })
+    setCategory(category)
   }
   const getAllProducts = () => {
     fetch("https://fakestoreapi.com/products/")
@@ -62,135 +67,138 @@ const Products = () => {
         },
       ])
     )
-    console.log("prody", products)
+    setShowModal(false)
+    reset()
   }
-  // var modal = document.getElementById("myModal")
-
-  // // // Get the button that opens the modal
-  // // var btn = document.getElementById("myBtn")
-
-  // // // Get the <span> element that closes the modal
-  // // var span = document.getElementsByClassName("close")[0]
-
-  // // // When the user clicks on the button, open the modal
-  // // btn.onclick = function () {
-  // //   modal.style.display = "block"
-  // // }
-
-  // // // When the user clicks on <span> (x), close the modal
-  // // span.onclick = function () {
-  // //   modal.style.display = "none"
-  // // }
-
-  // // // When the user clicks anywhere outside of the modal, close it
-  // window.onclick = function (event) {
-  //   if (event.target == modal) {
-  //     modal.style.display = "none"
-  //   }
-  // }
-
   return (
     <>
       <div id="myModal" className={styles.modal}>
         <div className={styles.modalContent}>
-          <span
-            className={styles.close}
-            onClick={() => {
-              document.getElementById("myModal").style.display = "none"
-            }}
-          >
-            &times;
-          </span>
-          <div>
-            dsfsdfd
-            <form onSubmit={handleSubmit(onSubmit)}>
-              {/* register your input into the hook by invoking the "register" function */}
-              <input {...register("title", { required: true })} />
-              {/* include validation with required or other standard HTML validation rules */}
-              <input {...register("price", { required: true })} />
-              <input {...register("description", { required: true })} />
-              <input {...register("category", { required: true })} />
-              {/* errors will return when field validation fails  */}
-              {errors.title && errors.price && (
-                <span>This field is required</span>
-              )}
+          <div className={styles.modalHeader}>
+            <p>New Product</p>
 
-              <input type="submit" />
-            </form>
+            <span
+              className={styles.close}
+              onClick={() => {
+                document.getElementById("myModal").style.visibility = "hidden"
+              }}
+            >
+              &times;
+            </span>
           </div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles.card}>
+              <div className={styles.cover}></div>
+              <div className={styles.body}>
+                <div className={styles.header}>
+                  <div>
+                    <label>İsim</label>
+                    <input {...register("title", { required: true })} />
+                    {errors.title && <span>Bu alanı doldurunuz.</span>}
+                  </div>
+                  <div className={styles.price}>
+                    <label>Fiyat</label>
+                    <input {...register("price", { required: true })} />
+                    {errors.price && <span>Bu alanı doldurunuz.</span>}
+                  </div>
+                </div>
+                <div className={styles.divider}></div>
+                <div className={styles.footer}>
+                  {" "}
+                  <label>Açıklama</label>
+                  <input {...register("description", { required: true })} />
+                  {errors.description && <span>Bu alanı doldurunuz.</span>}
+                  <label>Kategori</label>
+                  <input {...register("category", { required: true })} />
+                  {errors.category && <span>Bu alanı doldurunuz.</span>}
+                  <button type="submit">Kaydet</button>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
       <div className={styles.columns}>
-        <div className={styles.sideMenu}>
-          <h2>Categories</h2>
-          <div>
-            <input
-              type="checkbox"
-              name="category"
-              onClick={() => {
-                getAllProducts()
-              }}
-            />
-            <label name="category">All</label>
-            {categories?.map((i) => (
-              <div className={styles.categories}>
-                <input
-                  type="checkbox"
-                  name="category"
-                  value={i}
-                  onClick={() => {
-                    changeCategories(i)
-                  }}
-                />
-                {/* {i[0]?.toUpperCase() + i?.slice(1)} */}
-                <label name="category">
-                  {i[0]?.toUpperCase() + i?.slice(1)}
-                </label>
-              </div>
-            ))}
+        {showSideMenu && (
+          <div className={styles.sideMenu} id="sideMenu">
+            <h2>Kategoriler</h2>
+            <div>
+              <input
+                type="checkbox"
+                name="category"
+                onClick={() => {
+                  getAllProducts()
+                  setCategory("Products")
+                }}
+              />
+              <label name="category">Hepsi</label>
+              {categories?.map((i) => (
+                <div className={styles.categories}>
+                  <input
+                    type="checkbox"
+                    name="category"
+                    value={i}
+                    onClick={() => {
+                      changeCategories(i)
+                    }}
+                  />
+
+                  <label name="category">
+                    {i[0]?.toUpperCase() + i?.slice(1)}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
         <div className={styles.main}>
           <div className={styles.flex}>
             <h2>
-              {category && category[0]?.toUpperCase() + category?.slice(1)}
+              {category ? (
+                category[0]?.toUpperCase() + category?.slice(1)
+              ) : (
+                <div>Ürünler</div>
+              )}
             </h2>
             <div className={styles.dropdown}>
+              <p
+                className={styles.dropdownP}
+                onClick={() => setShowSideMenu(!showSideMenu)}
+              >
+                Kategorileri Göster
+              </p>
               <div>
                 <button
                   id="myBtn"
-                  onClick={() => {
-                    document.getElementById("myModal").style.display = "block"
-                  }}
+                  onClick={() =>
+                    (document.getElementById("myModal").style.visibility =
+                      "visible")
+                  }
                 >
                   +
                 </button>
-              </div>
-              <div>
-                <p>Sıralama Ölçütü</p>
-
-                <div className={styles.dropdownContent}>
-                  <div>
-                    <input
-                      type="radio"
-                      name="ordering"
-                      onClick={() => {
-                        changeOrder("desc")
-                      }}
-                    />
-                    <label for="orderType">Artan Sıralama</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      name="ordering"
-                      value="ascending"
-                      onClick={() => changeOrder("asc")}
-                    />
-                    <label for="orderType" name="ordering" value="descending">
-                      Azalan Sıralama
-                    </label>
-                  </div>
+              </div>{" "}
+              <div className={styles.dropdownContent}>
+                <div>
+                  <input
+                    type="radio"
+                    name="ordering"
+                    onClick={() => {
+                      changeOrder("desc")
+                    }}
+                  />
+                  <label for="orderType">Artan Sıralama</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    name="ordering"
+                    value="ascending"
+                    onClick={() => changeOrder("asc")}
+                  />
+                  <label for="orderType" name="ordering" value="descending">
+                    Azalan Sıralama
+                  </label>
                 </div>
               </div>
             </div>

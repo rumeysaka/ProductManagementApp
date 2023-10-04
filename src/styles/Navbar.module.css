@@ -8,29 +8,27 @@
   height: 50px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   box-shadow: var(--shadow-box);
   -webkit-box-shadow: var(---moz-box-shadow);
   -moz-box-shadow: var(---moz-box-shadow);
+  justify-content: space-between;
 }
 .mainHeader a {
   text-decoration: none;
-  display: flex;
-  color: aliceblue;
-  justify-content: space-between;
+  color: var(--light);
   padding: 1 rem;
   overflow: hidden;
   box-sizing: border-box;
+  align-items: center;
 }
 .title {
-  display: flex;
-  justify-content: flex-start;
-  font-size: 3rem;
+  font-size: 2.3rem;
 }
 .mainNav {
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-right: 4%;
 }
 
 .mainNav a {
@@ -41,4 +39,36 @@
   .mainNav {
     display: none;
   }
+}
+@media (min-width: 600px) {
+  .toggleIcon,
+  .toggleMenu {
+    display: none;
+  }
+}
+
+.toggleMenu {
+  background-color: var(--blue);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-box);
+  -webkit-box-shadow: var(---moz-box-shadow);
+  -moz-box-shadow: var(---moz-box-shadow);
+  justify-content: end;
+  margin-left: auto;
+  padding: 1rem;
+  border-radius: 0 0 3px 0px;
+  z-index: 1;
+}
+.toggleMenu a {
+  margin-bottom: 2rem;
+  padding: 0 1rem 0 1rem;
+  color: var(--light);
+}
+.toggleIcon {
+  width: 35px;
+  height: 3px;
+  background-color: var(--light);
+  margin: 6px 0;
 }

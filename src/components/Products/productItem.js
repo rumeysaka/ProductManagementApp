@@ -2,6 +2,7 @@ import styles from "../../styles/ProductItem.module.css"
 import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux"
 import { setProducts } from "../../redux/features/ProductSlice"
+import { useState } from "react"
 
 const ProductItem = (props) => {
   const { handleDeleteProduct, product } = props
@@ -35,18 +36,27 @@ const ProductItem = (props) => {
     <div className={styles.card} key={product.id}>
       <div className={styles.cover}>
         <img src={product.image} />
+
+        <div
+          className={styles.deleteBox}
+          onClick={() => {
+            handleDeleteProduct(product.id)
+          }}
+        >
+          <div className={styles.delete}> &times;</div>
+        </div>
       </div>
-      <div className={styles.body}>
+      <div id={`body${product.id}`} className={styles.body}>
         <div className={styles.header}>
           <div className={styles.h3}>{product.title}</div>
           <div className={styles.price}>{product.price}₺</div>
         </div>
         <div className={styles.divider}></div>
-        <div>{product.category}</div>
         <div className={styles.flex}>
-          <p
+          <div>{product.category}</div>
+          <div
             id={`edit${product.id}`}
-            className={styles.delete}
+            className={styles.edit}
             onClick={() => {
               document.getElementById(`form${product.id}`).style.visibility =
                 "visible"
@@ -54,20 +64,44 @@ const ProductItem = (props) => {
                 "visible"
               document.getElementById(`edit${product.id}`).style.visibility =
                 "hidden"
+              document.getElementById(`body${product.id}`).style.visibility =
+                "hidden"
             }}
           >
-            edit
-          </p>
-          <div
-            className={styles.delete}
-            onClick={() => {
-              handleDeleteProduct(product.id)
-            }}
-          >
-            sil
+            <p>Düzenle</p>
           </div>
         </div>
-        <div className={styles.row}>
+      </div>
+      <div className={styles.formColumn}>
+        <form id={`form${product.id}`} onSubmit={handleSubmit(onSubmit)}>
+          <input
+            defaultValue={product.title}
+            {...register("title", { required: true })}
+          />
+          <input
+            defaultValue={product.price}
+            {...register("price", { required: true })}
+          />
+          {errors.title && errors.price && <span>This field is required</span>}
+
+          <button
+            type="submit"
+            onClick={() => {
+              document.getElementById(`form${product.id}`).style.visibility =
+                "hidden"
+              document.getElementById(`edit${product.id}`).style.visibility =
+                "visible"
+              document.getElementById(`close${product.id}`).style.visibility =
+                "hidden"
+              document.getElementById(`body${product.id}`).style.visibility =
+                "visible"
+            }}
+          >
+            Kaydet
+          </button>
+        </form>
+
+        <div className={styles.close}>
           <p
             id={`close${product.id}`}
             onClick={() => {
@@ -77,35 +111,13 @@ const ProductItem = (props) => {
                 "hidden"
               document.getElementById(`edit${product.id}`).style.visibility =
                 "visible"
+              document.getElementById(`body${product.id}`).style.visibility =
+                "visible"
             }}
           >
-            x
+            &times;
           </p>
-          <form
-            id={`form${product.id}`}
-            style={{ visibility: "hidden" }}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            {/* register your input into the hook by invoking the "register" function */}
-            <input
-              defaultValue={product.title}
-              {...register("title", { required: true })}
-            />
-
-            {/* include validation with required or other standard HTML validation rules */}
-            <input
-              defaultValue={product.price}
-              {...register("price", { required: true })}
-            />
-            {/* errors will return when field validation fails  */}
-            {errors.title && errors.price && (
-              <span>This field is required</span>
-            )}
-
-            <input type="submit" />
-          </form>
         </div>
-        {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
       </div>
     </div>
   )
